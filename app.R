@@ -1,3 +1,17 @@
+# Pacotes Necessarios para o programa
+
+
+# install.packages("plotly")
+# install.packages("shiny")
+# install.packages("shinydashboard")
+# install.packages("leaflet")
+# #if (!require("devtools")) install.packages("devtools")
+# #devtools::install_github("Cepesp-Fgv/cepesp-r")
+# install.packages("rgdal")
+# install.packages("dplyr")
+# install.packages("randomcoloR")
+
+
 library(plotly)
 library(shiny)
 library(shinydashboard)
@@ -262,8 +276,8 @@ ui <- dashboardPage(skin = "black",
       tabItem(
         tabName = "intro",
           div(id = "intro",
-            h1("Introdução:"),
-            h4("Essa plataforma foi criada com o objetivo de facilitar o acesso às informações disponíveis e dados públicos sobre as eleições no Brasil. ")
+            h1("Introducao"),
+            h4("descricao")
             ),
           div(id= "Tadeu",class = "row",
             div(id = "mapa_tadeu",class = "col-sm-6",
@@ -273,9 +287,7 @@ ui <- dashboardPage(skin = "black",
             div(id = "tadeu", class = "col-sm-6",
                 
                 h1("descricao "),
-                p("Na aba "Mapas" é possível a visualização de dois mapas. No primeiro, pode-se selecionar o cargo desejado, o ano da eleição, a região de agregação (federação, estado ou município) e o tipo de agregação política (partido ou candidato). A partir de cada opção selecionada, um mapa dinâmico é gerado e nele observa-se em diferentes tonalidades de azul a quantidade de votos em cada região, sendo o tom mais escuro representativo de maior quantidade de votos em absoluto e o mais claro representativo de menor quantidade. Além disso, há a opção de definir a métrica desejada (como total de votos, votos em relação à população, votos em relação ao PIB e total de votos na base logarítmica), o que permite verificar a influência da região em análise para a eleição.
-O segundo mapa permite ter uma interação melhor com os dados em nível municipal. Dado que o mapa não tem muita carga visual de informação, pois o usuário clica nas agregações municipais aproximando o mapa até chegar na cidade desejada. Ressalta-se que agregações menores apenas aparecem quando se clica em uma agregação maior. Caso o usuário deseje transitar entre os dois mapas, há um menu interativo no canto superior da tela podendo selecionar a visualização desejada e também sobrepor os dois tipos de funcionalidades.
-	Há também um terceiro mapa na aba "Chart Map" que permite a visualização da distribuição de votos para todos os partidos no mapa do Brasil através de um pie chart ("gráfico de pizza") que aparece para as agregações geográficas selecionadas. Em suma, aparecerá um gráfico mostrando a porcentagem de votos de cada partido em todas as unidades federativas, dessa forma, consegue-se visualizar quais partidos são mais fortes em cada localidade de maneira rápida e fácil.")
+                p("texto")
                 )
                 ),
         
@@ -284,12 +296,12 @@ O segundo mapa permite ter uma interação melhor com os dados em nível municipal.
                 div(id= "ana-tb-1", class= "col-sm-6",
                     h3("descricao"),
                     tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                    h5("Na aba "Candidatos" pode-se selecionar duas seções. Na seção "Dados por Candidato", se pode visualizar dois gráficos e uma tabela. O primeiro gráfico mostra a distribuição de gêneros dos candidatosdado o cargo selecionado pelo usuário, o ano da eleição, o Estado ou a Federação e o nome do município. O segundo gráfico engloba o percentual de votos do candidato ou partido. É possível fazer download dos gráficos passando o mouse no canto superior da tela. A tabela mostra de acordo com as variáveis selecionadas para presidente, governador e senador o nome do candidato, o partido dele, a proporção de votos e a coligação. Para os demais cargos, a tabela apresenta o partido, a coligação e o percentual de votos por partido. Na seção "Comparar Partidos", o usuário digita o número de dois partidos desejados e pode observar em um primeiro gráfico a evolução histórica do percentual de votos para os partidos selecionados. Abaixo do gráfico tem-se duas tabelas: a primeira mostra um comparativo entre os dois partidos em relação ao gasto total e médio em campanha de acordo com os cargos: Presidente, Governador, Senador, Deputado Federal e Deputado Estadual; a segunda  tabela mostra o percentual de candidatos eleitos por partido no que tange aos cargos mencionados. Para uma comparação mais abrangente, foram selecionados mais dois gráficos com as seguintes informações: o primeiro permite ter uma ideia de correlação entre o percentual de votos de dois partidos, ou seja, caso se observe uma tendência descendente no gráfico, infere-se que há uma relação antagônica entre os partidos, pois em estados nos quais há predominância de um partido, observa-se que há menos influência no outro e vice-versa. Caso não haja tendência aparente, não se observa relação direta de antagonismo ou não entre os partidos Já o segundo gráfico permite a visualização do percentual de votos para cada partido selecionado de acordo com o estado.")
+                    h5("descricao")
                     ),
               div(id= "ana-tb-1", class= "col-sm-6",
                   h3("indices"),
                   tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                  h5("Na aba "Índices" foram construídos diversos gráficos no âmbito Federal e Estadual que mostram índices econômicos brasileiros e os partidos que estavam no poder durante os períodos de 1999 a 2014. No nível Federal, são mostrados os índices: Gini, PIB per Capita e PEA, já no Estadual, os índices disponíveis são: Gini, Desemprego e Pobreza para cada uma das unidades federativas escolhidas. Os gráficos estão em formatos de linha ou pontos. Cada mandato está representado em uma cor diferente mostrando também qual era o partido no período.")
+                  h5("descricao")
                   )
                   
               )
