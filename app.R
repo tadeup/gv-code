@@ -10,7 +10,7 @@ library(dplyr)
 library(randomcoloR)
 options(scipen = 999)
 
-# setwd("C:\\Users\\tadeu\\Desktop\\FGV\\GV DATA\\CEPESP\\VICTOR")
+# setwd("C:\\Users\\victor-pc\\Desktop\\New folder\\gv-code")
 
 #pre-codigo
 estados <- data.frame(stringsAsFactors = F,
