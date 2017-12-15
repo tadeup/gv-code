@@ -131,7 +131,9 @@ mapaIndividual <- function(){
         if(input$regAgr == "Estado" ){
           if(input$metrica == "total de votos"){
             #akira_beg
-            source("www/func/LeafletRunEstadosBr.r", local = T)
+            #source("www/func/LeafletRunEstadosBr.r", local = T)
+            #leaflet_run_estados_br()
+            source("www/func/plotBrEstados.r", local = T)
             leaflet_run_estados_br()
             #akira_end
           } else if(input$metrica == "votos/populacao") {

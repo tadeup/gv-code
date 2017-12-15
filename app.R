@@ -209,21 +209,20 @@ ui <- dashboardPage(skin = "black",
                 #------------------------------------Mapa Tadeu
                 
                 
-                menuItem("Map", tabName = "map", icon = icon("map"),
-                  menuItem("mapa",
-                      conditionalPanel(
-                        #class="menu-condicional",
-                        condition = "input.sidebarmenu === 'map'",
-                        selectInput(inputId = "tipoConsulta", label = "Tipo da consulta",choices = c("individual","geral")),
-                        selectInput(inputId = "polAgr", label = "Agregacao politica", choices = agregacoes),
-                        uiOutput("partyORcandidate"),
-                        selectInput(inputId = "ano", label = "Ano da eleicao", choices = anos),
-                        uiOutput(outputId = "cargo"),
-                        selectInput(inputId = "estado", label = "Estado", choices = estados[,1]),
-                        uiOutput(outputId = "regAgr"),
-                        radioButtons(inputId = "turno", label = "Turno",choices = c(1, 2)),
-                        selectInput(inputId = "metrica", label = "metrica a utilizar",choices = metricas),
-                        actionButton("goMap", "Gerar mapa")))),
+                menuItem("Map", tabName = "map", icon = icon("map")),
+                conditionalPanel(
+                  #class="menu-condicional",
+                  condition = "input.sidebarmenu === 'map'",
+                  selectInput(inputId = "tipoConsulta", label = "Tipo da consulta",choices = c("individual","geral")),
+                  selectInput(inputId = "polAgr", label = "Agregacao politica", choices = agregacoes),
+                  uiOutput("partyORcandidate"),
+                  selectInput(inputId = "ano", label = "Ano da eleicao", choices = anos),
+                  uiOutput(outputId = "cargo"),
+                  selectInput(inputId = "estado", label = "Estado", choices = estados[,1]),
+                  uiOutput(outputId = "regAgr"),
+                  radioButtons(inputId = "turno", label = "Turno",choices = c(1, 2)),
+                  selectInput(inputId = "metrica", label = "metrica a utilizar",choices = metricas),
+                  actionButton("goMap", "Gerar mapa")),
                 
                 #------------------------------------ Ana
                 
