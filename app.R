@@ -24,7 +24,7 @@ library(dplyr)
 library(randomcoloR)
 options(scipen = 999)
 
-# setwd("C:\\Users\\victor-pc\\Desktop\\New folder\\gv-code")
+# setwd("C:\\Users\\victor-pc\\Desktop\\Cepesp\\gv-code")
 
 #pre-codigo
 estados <- data.frame(stringsAsFactors = F,
@@ -198,23 +198,36 @@ ui <- dashboardPage(skin = "black",
   #sidebar da pagina
   dashboardSidebar(
     sidebarMenu(id = "sidebarmenu",
-                menuItem("Intro", tabName = "intro", icon = icon("info")),
-                menuItem("Map", tabName = "map", icon = icon("map")),
-                conditionalPanel(
-                  #class="menu-condicional",
-                  condition = "input.sidebarmenu === 'map'",
-                  selectInput(inputId = "tipoConsulta", label = "Tipo da consulta",choices = c("individual","geral")),
-                  selectInput(inputId = "polAgr", label = "Agregacao politica", choices = agregacoes),
-                  uiOutput("partyORcandidate"),
-                  selectInput(inputId = "ano", label = "Ano da eleicao", choices = anos),
-                  uiOutput(outputId = "cargo"),
-                  selectInput(inputId = "estado", label = "Estado", choices = estados[,1]),
-                  uiOutput(outputId = "regAgr"),
-                  radioButtons(inputId = "turno", label = "Turno",choices = c(1, 2)),
-                  selectInput(inputId = "metrica", label = "metrica a utilizar",choices = metricas),
-                  actionButton("goMap", "Gerar mapa")),
                 
-                menuItem("Candidatos", tabName = "candidatos", icon = icon("bar-chart"),
+                
+                #--------------------------------------FRONT VICTOR
+                
+                menuItem("Intro", tabName = "intro", icon = icon("info")),
+                
+                
+                
+                #------------------------------------Mapa Tadeu
+                
+                
+                menuItem("Map", tabName = "map", icon = icon("map"),
+                  menuItem("mapa",
+                      conditionalPanel(
+                        #class="menu-condicional",
+                        condition = "input.sidebarmenu === 'map'",
+                        selectInput(inputId = "tipoConsulta", label = "Tipo da consulta",choices = c("individual","geral")),
+                        selectInput(inputId = "polAgr", label = "Agregacao politica", choices = agregacoes),
+                        uiOutput("partyORcandidate"),
+                        selectInput(inputId = "ano", label = "Ano da eleicao", choices = anos),
+                        uiOutput(outputId = "cargo"),
+                        selectInput(inputId = "estado", label = "Estado", choices = estados[,1]),
+                        uiOutput(outputId = "regAgr"),
+                        radioButtons(inputId = "turno", label = "Turno",choices = c(1, 2)),
+                        selectInput(inputId = "metrica", label = "metrica a utilizar",choices = metricas),
+                        actionButton("goMap", "Gerar mapa")))),
+                
+                #------------------------------------ Ana
+                
+                 menuItem("Candidatos", tabName = "candidatos", icon = icon("bar-chart"),
                          menuItem("Dados por candidato", tabName = "DadosPorCandidato"),
                          conditionalPanel(
                            class ="menu-conditional",
@@ -233,32 +246,44 @@ ui <- dashboardPage(skin = "black",
                            
                          )
                 ),
-                conditionalPanel(
-                  selectInput(inputId = "pol", label = "Selecione o cargo", choices = c("Presidente", "Governador")),
-                  selectInput(inputId = "anoplot", label = "Selecione o Ano", choices = c(2014,2010,2006,2002,1998)),
-                  selectInput(inputId = "local", label = "Estado", choices = estados[,1]),
-                  uiOutput(outputId =  "AgregGeo"),
-                  selectInput(inputId = "tipovoto", label = "Total ou porcentagem", choices = c("Total", "Porcentagem"))
-                ),
-                menuItem("Indices", tabName = "indices", icon = icon("database")),
-                menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart")),
-                conditionalPanel(
-                  selectInput(inputId = "pol", label = "Selecione o cargo", choices = c("Presidente", "Governador")),
-                  selectInput(inputId = "anoplot", label = "Selecione o Ano", choices = c(2014,2010,2006,2002,1998)),
-                  selectInput(inputId = "local", label = "Estado", choices = estados[,1]),
-                  uiOutput(outputId =  "AgregGeo"),
-                  selectInput(inputId = "tipovoto", label = "Total ou porcentagem", choices = c("Total", "Porcentagem"))
-                ),
-                menuItem("Indices", tabName = "indices", icon = icon("line-chart")),
-                conditionalPanel(
-                  class ="menu-conditional",
-                  condition = "input.sidebarmenu == 'indices'",
-                  selectInput( inputId = "cargo", label = "Cargo:", choices = c("Presidente", "Governador")),
-                  uiOutput(outputId = "indices"),
-                  uiOutput(outputId = "estado")),
-                menuItem("Source code", icon = icon("file-code-o"), href = "http://cepesp.io")
-    )
-  ),
+                
+                
+                
+                
+                
+                
+                
+                #------------------------------------AKIRA
+                
+                menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart"),
+                         menuItem("AKIRA"
+                           
+                           # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+                           
+                           )),
+                         
+
+                                 
+              #------------------------------------KALED          
+              menuItem("Indices", tabName = "indices", icon = icon("line-chart"),
+                       menuSubItem("KALED"
+                         
+                         # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+                         
+                       )),
+              
+              #------------------------------------aleatorio         
+              menuItem("JORGE", tabName = "indices", icon = icon("database"),
+                       menuSubItem("JORGE"
+                                   
+                                   # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+                                   
+                       ))
+  )),
+  
+  
+  
+################------------------BODY--------------------########################  
   
   #corpo da pagina
   dashboardBody(
@@ -273,6 +298,9 @@ ui <- dashboardPage(skin = "black",
     
     #elementos do corpo da pagina
     tabItems(
+      
+      
+      #-------------------VICTOR------------------#
       tabItem(
         tabName = "intro",
           div(id = "intro",
@@ -303,20 +331,19 @@ ui <- dashboardPage(skin = "black",
                   tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
                   h5("descricao")
                   )
-                  
               )
-        
-  
-        
-
-        
             ),
-          
+      #-------------------TADEU------------------#    
       tabItem(
         tabName = "map",
         textOutput("erroMapa1"),
         leafletOutput("mapa", height = "95vh")
       ),
+      
+      
+      
+      #-------------------ANA-----------------#  
+      
       tabItem(
         tabName = "DadosPorCandidato",
         fluidRow(
@@ -336,23 +363,36 @@ ui <- dashboardPage(skin = "black",
                 box(plotlyOutput("gg2"), height = 450, width = 700, title = "Percentual votos nos partidos por Estado")
                 )
               ),
+      
+      
+      #-------------------AKIRA------------------#  
       tabItem(
         tabName = "chartmap",
         leafletOutput("chartmapa", height = "95vh")
       ),
+      
+      #-------------------KALED------------------#  
       tabItem(tabName = "indices",
               h1("", style = "95vh"),
               fluidRow(
                 plotlyOutput("chart")
               )),
+      
+      
+      
+      #-------------------ALGO ALEATORIO------------------# 
       tabItem(
         tabName = "misc"
       )
-    )
-  )
-)
+      
+      
+      #-------------------------------------# 
+    ) #TABITEM
+  ) #BODY
+) #DASH
 
 
+#-------------------BACK------------------#
 
 #back end do app
 server <- function(input, output) {
