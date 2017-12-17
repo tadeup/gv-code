@@ -255,12 +255,12 @@ ui <- dashboardPage(skin = "black",
                 
                 #------------------------------------AKIRA
                 
-                menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart"),
-                         menuItem("AKIRA"
-                           
-                           # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
-                           
-                           )),
+                # menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart"),
+                #          menuItem("AKIRA"
+                #            
+                #            # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+                #            
+                #            )),
                          
 
                                  
@@ -270,15 +270,15 @@ ui <- dashboardPage(skin = "black",
                          
                          # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
                          
-                       )),
+                       ))
               
               #------------------------------------aleatorio         
-              menuItem("JORGE", tabName = "indices", icon = icon("database"),
-                       menuSubItem("JORGE"
-                                   
-                                   # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
-                                   
-                       ))
+              # menuItem("JORGE", tabName = "indices", icon = icon("database"),
+              #          menuSubItem("JORGE"
+              #                      
+              #                      # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+              #                      
+              #          ))
   )),
   
   
@@ -304,35 +304,55 @@ ui <- dashboardPage(skin = "black",
       tabItem(
         tabName = "intro",
           div(id = "intro",
-            h1("Introducao"),
-            h4("descricao")
+            h1("CEPESP"),
+            h4("A plataforma FGV - eleicoes, foi criada com o objetivo de facilitar o acesso aos dados publicos sobre as eleicoes no Brasil. 
+               De uma maneira interativa e completa, aqui pode-se visualizar mapas e graficos dinamicos de acordo com cargo politico, 
+               ano e escala regional desejados e ainda comparar partidos quanto a: quantidade de votos, valor gasto em campanha e  percentual de candidatos eleitos. 
+               Informacoes como a representatividade por genero e o percentual de votos por candidato na eleicao selecionada tambem sao acessiveis. 
+               Se deseja uma perspectiva mais completa, por meio da aba indices, 
+               pode-se visualizar indicadores economicos ao longo do tempo  de acordo com o partido no poder. "),
+            h3("Veja como funciona")
+            
             ),
+        
           div(id= "Tadeu",class = "row",
             div(id = "mapa_tadeu",class = "col-sm-6",
-                h3("mapa"),
+                h3("Mapa Interativo"),
                 tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "70%")
             ),
             div(id = "tadeu", class = "col-sm-6",
                 
-                h1("descricao "),
-                p("texto")
+                h1("Como funciona:"),
+                p("Em 'Mapas',tem-se a opcao de selecionar o cargo desejado, ano da eleicao, regiao de agregacao (federacao, estado ou municipio) e o tipo de agregacao politica (partido ou candidato). A partir de cada opcao selecionada gera-se um mapa, mostrando a quantidade de votos em cada regiao,de forma que: quanto mais escura for a tonalidade maior a quantidade de votos. Alem disso, pode-se tambem verificar a influencia da regiao para a eleicao ao escolher se deseja visualizar no mapa:  a quantidade de votos em relacao a populacao ou ao PIB ou ainda a quantidade de votos em escala logaritmica.
+ Se deseja observar o mapa em escala municipal, em uma segunda forma de visualizacao, pode-se clicar nas agregacoes municipais ou ainda aproximar o mapa ate que se encontre a cidade desejada.
+	Para visualizar a distribuicao de votos por partido no mapa, selecione a aba 'Chart Map', nela, adiciona-se ao mapa em cada unidade federativa um grafico mostrando a porcentagem de votos de cada partido.
+")
                 )
                 ),
         
           div(id = "Ana", class = "row",
-                h1("candidatos"),
+                h1("Candidatos"),
                 div(id= "ana-tb-1", class= "col-sm-6",
-                    h3("descricao"),
+                    h3("Dados por Candidato"),
                     tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                    h5("descricao")
+                    p("Essa aba reune graficos e informacoes a respeito da distribuicao de genero dos candidatos e percentual de votos por candidato ou partido a partir da escolha do cargo, ano, Estado e nome do municipio selecionado. Pode-se fazer download dos graficos passando o mouse no canto superior da tela")
                     ),
               div(id= "ana-tb-1", class= "col-sm-6",
-                  h3("indices"),
+                  h3("Comparacao entre eles"),
                   tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                  h5("descricao")
+                  p("Na aba comparar partidos, basta digitar o numero de dois partidos desejados e, em seguida, graficos e tabelas sao gerados a respeito do percentual de votos do partido selecionado, gasto total e medio em campanha por cargo de acordo com as ultimas eleicoes e percentual de candidatos eleitos por partido. Para uma comparacao mais abrangente, mais dois graficos sao gerados: no primeiro permite-se ter uma ideia da correlacao entre o percentual de votos entre dois partidos e assim analisar se existe uma relacao antagonica entre os dois partidos, caso por exemplo haja uma tendencia decrescente. O segundo permite a visualizacao do percentual de votos para cada partido selecionado de acordo com o estado. ")
                   )
+              ),
+        
+          div(id = "Kaled", class = "row",
+              h1("Indices"),
+              div(id= "ana-tb-1", class= "col-sm-12",
+                  tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
+                  p("Em 'Indices' pode-se visualizar graficos em escala Federal e Estadual que mostram indicadores economicos brasileiros provenientes do IPEA de acordo com os partidos que estavam no poder. No nivel federal sao mostrados indices: Gini, PIB per Capita e Populacao economicamente ativa. Ja no nivel estadual, os indices disponiveis sao: Gini,Desemprego e pobreza por Estado escolhido. ")
               )
-            ),
+              
+          )
+      ),
       #-------------------TADEU------------------#    
       tabItem(
         tabName = "map",

@@ -10,25 +10,48 @@
 
 
 /* KALED ******************************************/
-
+#Kaled {
+    border: 1px solid #6699ff;
+    height: 600px;
+    text-align: center;
+    background-color: white;
+    padding: 0px 60px;
+}
 
 
 /* ANA ******************************************/
+
 
 #Ana {
     border: 1px solid #6699ff;
     height: 600px;
     text-align: center;
     background-color: white;
+    
+    }
+
+   
+#ana-tb-1 p {
+    text-align: justify;
+    padding: 0px 40px;
 }
-
-
+#ana-tb-1 img {
+    padding: 0px 40px;
+}
 
 /* TADEU + AKIRA ******************************************/
 
 
 #Tadeu{
     background-color: white;
+}
+
+#Tadeu p {
+
+    padding-right: 40px;
+    text-align: justify;
+
+
 }
 
 #mapa_tadeu{
@@ -57,7 +80,7 @@
 
 #intro{
 
-    height: 800px;
+    height: 500px;
     background-color: #6699ff;
     display: block;
     position: relative;
@@ -91,6 +114,18 @@
     background-color: none;
 }
 
+#intro h3 {
+    
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+        padding-top: 10%;
+        margin-bottom: 0;
+        margin-top: 0px;
+        text-align: center;
+        text-decoration: bold;
+        background-color: none;
+    }
+    
 #intro h4 {
 
     font-weight: bold;
