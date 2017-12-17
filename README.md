@@ -5,3 +5,4 @@ Dentre as funcionalidades estão inclusas as seguintes:
 * gráficos para candidatos e anos específicos
 * gráficos comparativos entre múltiplos candidatos e múltiplas eleições
 * agregado de índices calculados a partir dos dados do cepesp
+* web scrapping de comentarios do twitter sobre eleições de 2018

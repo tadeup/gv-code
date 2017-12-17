@@ -1,3 +1,17 @@
+# Pacotes Necessarios para o programa
+
+
+# install.packages("plotly")
+# install.packages("shiny")
+# install.packages("shinydashboard")
+# install.packages("leaflet")
+# #if (!require("devtools")) install.packages("devtools")
+# #devtools::install_github("Cepesp-Fgv/cepesp-r")
+# install.packages("rgdal")
+# install.packages("dplyr")
+# install.packages("randomcoloR")
+
+
 library(plotly)
 library(shiny)
 library(shinydashboard)
@@ -10,7 +24,7 @@ library(dplyr)
 library(randomcoloR)
 options(scipen = 999)
 
-# setwd("C:\\Users\\tadeu\\Desktop\\FGV\\GV DATA\\CEPESP\\VICTOR")
+# setwd("C:\\Users\\victor-pc\\Desktop\\Cepesp\\gv-code")
 
 #pre-codigo
 estados <- data.frame(stringsAsFactors = F,
@@ -50,7 +64,26 @@ hpd1y5 <- votes(year=1998, position = "President", regional_aggregation = "Estad
 hpd2y5 <- candidates(year = 1998, position = "President")
 hpd3y5 <- coalitions(year = 1998, position = "President")
 
-
+hpd1y1 <- read.csv2("www\\datacsv-API\\hpd1y1.csv", header = T, sep = ",")[,2:13]
+hpd1y2 <- read.csv2("www\\datacsv-API\\hpd1y2.csv", header = T, sep = ",")[,2:13]
+hpd1y3 <- read.csv2("www\\datacsv-API\\hpd1y3.csv", header = T, sep = ",")[,2:13]
+hpd1y4 <- read.csv2("www\\datacsv-API\\hpd1y4.csv", header = T, sep = ",")[,2:13]
+hpd1y5 <- read.csv2("www\\datacsv-API\\hpd1y5.csv", header = T, sep = ",")[,2:13]
+hpd2y1 <- read.csv2("www\\datacsv-API\\hpd2y1.csv", header = T, sep = ",")[,2:13]
+hpd2y2 <- read.csv2("www\\datacsv-API\\hpd2y2.csv", header = T, sep = ",")[,2:13]
+hpd2y3 <- read.csv2("www\\datacsv-API\\hpd2y3.csv", header = T, sep = ",")[,2:13]
+hpd2y4 <- read.csv2("www\\datacsv-API\\hpd2y4.csv", header = T, sep = ",")[,2:13]
+hpd2y5 <- read.csv2("www\\datacsv-API\\hpd2y5.csv", header = T, sep = ",")[,2:13]
+hpd3y1 <- read.csv2("www\\datacsv-API\\hpd3y1.csv", header = T, sep = ",")[,2:13]
+hpd3y2 <- read.csv2("www\\datacsv-API\\hpd3y2.csv", header = T, sep = ",")[,2:13]
+hpd3y3 <- read.csv2("www\\datacsv-API\\hpd3y3.csv", header = T, sep = ",")[,2:13]
+hpd3y4 <- read.csv2("www\\datacsv-API\\hpd3y4.csv", header = T, sep = ",")[,2:13]
+hpd3y5 <- read.csv2("www\\datacsv-API\\hpd3y5.csv", header = T, sep = ",")[,2:13]
+df1 <- read.csv2("www\\datacsv-API\\df1.csv", header = T, sep = ",")[,2:5]
+df2 <- read.csv2("www\\datacsv-API\\df2.csv", header = T, sep = ",")[,2:5]
+df3 <- read.csv2("www\\datacsv-API\\df3.csv", header = T, sep = ",")[,2:5]
+df4 <- read.csv2("www\\datacsv-API\\df4.csv", header = T, sep = ",")[,2:5]
+df5 <- read.csv2("www\\datacsv-API\\df5.csv", header = T, sep = ",")[,2:5]
 
 #pt2
 anos1 <- c(2000, 2004, 2008, 2012, 2016)
@@ -184,7 +217,17 @@ ui <- dashboardPage(skin = "black",
   #sidebar da pagina
   dashboardSidebar(
     sidebarMenu(id = "sidebarmenu",
+                
+                
+                #--------------------------------------FRONT VICTOR
+                
                 menuItem("Intro", tabName = "intro", icon = icon("info")),
+                
+                
+                
+                #------------------------------------Mapa Tadeu
+                
+                
                 menuItem("Map", tabName = "map", icon = icon("map")),
                 conditionalPanel(
                   #class="menu-condicional",
@@ -200,7 +243,9 @@ ui <- dashboardPage(skin = "black",
                   selectInput(inputId = "metrica", label = "metrica a utilizar",choices = metricas),
                   actionButton("goMap", "Gerar mapa")),
                 
-                menuItem("Candidatos", tabName = "candidatos", icon = icon("bar-chart"),
+                #------------------------------------ Ana
+                
+                 menuItem("Candidatos", tabName = "candidatos", icon = icon("bar-chart"),
                          menuItem("Dados por candidato", tabName = "DadosPorCandidato"),
                          conditionalPanel(
                            class ="menu-conditional",
@@ -219,32 +264,44 @@ ui <- dashboardPage(skin = "black",
                            
                          )
                 ),
-                conditionalPanel(
-                  selectInput(inputId = "pol", label = "Selecione o cargo", choices = c("Presidente", "Governador")),
-                  selectInput(inputId = "anoplot", label = "Selecione o Ano", choices = c(2014,2010,2006,2002,1998)),
-                  selectInput(inputId = "local", label = "Estado", choices = estados[,1]),
-                  uiOutput(outputId =  "AgregGeo"),
-                  selectInput(inputId = "tipovoto", label = "Total ou porcentagem", choices = c("Total", "Porcentagem"))
-                ),
-                menuItem("Indices", tabName = "indices", icon = icon("database")),
-                menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart")),
-                conditionalPanel(
-                  selectInput(inputId = "pol", label = "Selecione o cargo", choices = c("Presidente", "Governador")),
-                  selectInput(inputId = "anoplot", label = "Selecione o Ano", choices = c(2014,2010,2006,2002,1998)),
-                  selectInput(inputId = "local", label = "Estado", choices = estados[,1]),
-                  uiOutput(outputId =  "AgregGeo"),
-                  selectInput(inputId = "tipovoto", label = "Total ou porcentagem", choices = c("Total", "Porcentagem"))
-                ),
-                menuItem("Indices", tabName = "indices", icon = icon("line-chart")),
-                conditionalPanel(
-                  class ="menu-conditional",
-                  condition = "input.sidebarmenu == 'indices'",
-                  selectInput( inputId = "cargo", label = "Cargo:", choices = c("Presidente", "Governador")),
-                  uiOutput(outputId = "indices"),
-                  uiOutput(outputId = "estado")),
-                menuItem("Source code", icon = icon("file-code-o"), href = "http://cepesp.io")
-    )
-  ),
+                
+                
+                
+                
+                
+                
+                
+                #------------------------------------AKIRA
+                
+                # menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart"),
+                #          menuItem("AKIRA"
+                #            
+                #            # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+                #            
+                #            )),
+                         
+
+                                 
+              #------------------------------------KALED          
+              menuItem("Indices", tabName = "indices", icon = icon("line-chart"),
+                       menuSubItem("KALED"
+                         
+                         # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+                         
+                       ))
+              
+              #------------------------------------aleatorio         
+              # menuItem("JORGE", tabName = "indices", icon = icon("database"),
+              #          menuSubItem("JORGE"
+              #                      
+              #                      # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
+              #                      
+              #          ))
+  )),
+  
+  
+  
+################------------------BODY--------------------########################  
   
   #corpo da pagina
   dashboardBody(
@@ -259,52 +316,72 @@ ui <- dashboardPage(skin = "black",
     
     #elementos do corpo da pagina
     tabItems(
+      
+      
+      #-------------------VICTOR------------------#
       tabItem(
         tabName = "intro",
           div(id = "intro",
-            h1("Introdução:"),
-            h4("Essa plataforma foi criada com o objetivo de facilitar o acesso às informações disponíveis e dados públicos sobre as eleições no Brasil. ")
+            h1("CEPESP"),
+            h4("A plataforma FGV - eleicoes, foi criada com o objetivo de facilitar o acesso aos dados publicos sobre as eleicoes no Brasil. 
+               De uma maneira interativa e completa, aqui pode-se visualizar mapas e graficos dinamicos de acordo com cargo politico, 
+               ano e escala regional desejados e ainda comparar partidos quanto a: quantidade de votos, valor gasto em campanha e  percentual de candidatos eleitos. 
+               Informacoes como a representatividade por genero e o percentual de votos por candidato na eleicao selecionada tambem sao acessiveis. 
+               Se deseja uma perspectiva mais completa, por meio da aba indices, 
+               pode-se visualizar indicadores economicos ao longo do tempo  de acordo com o partido no poder. "),
+            h3("Veja como funciona")
+            
             ),
+        
           div(id= "Tadeu",class = "row",
             div(id = "mapa_tadeu",class = "col-sm-6",
-                h3("mapa"),
+                h3("Mapa Interativo"),
                 tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "70%")
             ),
             div(id = "tadeu", class = "col-sm-6",
                 
-                h1("descricao "),
-                p("Na aba "Mapas" é possível a visualização de dois mapas. No primeiro, pode-se selecionar o cargo desejado, o ano da eleição, a região de agregação (federação, estado ou município) e o tipo de agregação política (partido ou candidato). A partir de cada opção selecionada, um mapa dinâmico é gerado e nele observa-se em diferentes tonalidades de azul a quantidade de votos em cada região, sendo o tom mais escuro representativo de maior quantidade de votos em absoluto e o mais claro representativo de menor quantidade. Além disso, há a opção de definir a métrica desejada (como total de votos, votos em relação à população, votos em relação ao PIB e total de votos na base logarítmica), o que permite verificar a influência da região em análise para a eleição.
-O segundo mapa permite ter uma interação melhor com os dados em nível municipal. Dado que o mapa não tem muita carga visual de informação, pois o usuário clica nas agregações municipais aproximando o mapa até chegar na cidade desejada. Ressalta-se que agregações menores apenas aparecem quando se clica em uma agregação maior. Caso o usuário deseje transitar entre os dois mapas, há um menu interativo no canto superior da tela podendo selecionar a visualização desejada e também sobrepor os dois tipos de funcionalidades.
-	Há também um terceiro mapa na aba "Chart Map" que permite a visualização da distribuição de votos para todos os partidos no mapa do Brasil através de um pie chart ("gráfico de pizza") que aparece para as agregações geográficas selecionadas. Em suma, aparecerá um gráfico mostrando a porcentagem de votos de cada partido em todas as unidades federativas, dessa forma, consegue-se visualizar quais partidos são mais fortes em cada localidade de maneira rápida e fácil.")
+                h1("Como funciona:"),
+                p("Em 'Mapas',tem-se a opcao de selecionar o cargo desejado, ano da eleicao, regiao de agregacao (federacao, estado ou municipio) e o tipo de agregacao politica (partido ou candidato). A partir de cada opcao selecionada gera-se um mapa, mostrando a quantidade de votos em cada regiao,de forma que: quanto mais escura for a tonalidade maior a quantidade de votos. Alem disso, pode-se tambem verificar a influencia da regiao para a eleicao ao escolher se deseja visualizar no mapa:  a quantidade de votos em relacao a populacao ou ao PIB ou ainda a quantidade de votos em escala logaritmica.
+ Se deseja observar o mapa em escala municipal, em uma segunda forma de visualizacao, pode-se clicar nas agregacoes municipais ou ainda aproximar o mapa ate que se encontre a cidade desejada.
+	Para visualizar a distribuicao de votos por partido no mapa, selecione a aba 'Chart Map', nela, adiciona-se ao mapa em cada unidade federativa um grafico mostrando a porcentagem de votos de cada partido.
+")
                 )
                 ),
         
           div(id = "Ana", class = "row",
-                h1("candidatos"),
+                h1("Candidatos"),
                 div(id= "ana-tb-1", class= "col-sm-6",
-                    h3("descricao"),
+                    h3("Dados por Candidato"),
                     tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                    h5("Na aba "Candidatos" pode-se selecionar duas seções. Na seção "Dados por Candidato", se pode visualizar dois gráficos e uma tabela. O primeiro gráfico mostra a distribuição de gêneros dos candidatosdado o cargo selecionado pelo usuário, o ano da eleição, o Estado ou a Federação e o nome do município. O segundo gráfico engloba o percentual de votos do candidato ou partido. É possível fazer download dos gráficos passando o mouse no canto superior da tela. A tabela mostra de acordo com as variáveis selecionadas para presidente, governador e senador o nome do candidato, o partido dele, a proporção de votos e a coligação. Para os demais cargos, a tabela apresenta o partido, a coligação e o percentual de votos por partido. Na seção "Comparar Partidos", o usuário digita o número de dois partidos desejados e pode observar em um primeiro gráfico a evolução histórica do percentual de votos para os partidos selecionados. Abaixo do gráfico tem-se duas tabelas: a primeira mostra um comparativo entre os dois partidos em relação ao gasto total e médio em campanha de acordo com os cargos: Presidente, Governador, Senador, Deputado Federal e Deputado Estadual; a segunda  tabela mostra o percentual de candidatos eleitos por partido no que tange aos cargos mencionados. Para uma comparação mais abrangente, foram selecionados mais dois gráficos com as seguintes informações: o primeiro permite ter uma ideia de correlação entre o percentual de votos de dois partidos, ou seja, caso se observe uma tendência descendente no gráfico, infere-se que há uma relação antagônica entre os partidos, pois em estados nos quais há predominância de um partido, observa-se que há menos influência no outro e vice-versa. Caso não haja tendência aparente, não se observa relação direta de antagonismo ou não entre os partidos Já o segundo gráfico permite a visualização do percentual de votos para cada partido selecionado de acordo com o estado.")
+                    p("Essa aba reune graficos e informacoes a respeito da distribuicao de genero dos candidatos e percentual de votos por candidato ou partido a partir da escolha do cargo, ano, Estado e nome do municipio selecionado. Pode-se fazer download dos graficos passando o mouse no canto superior da tela")
                     ),
               div(id= "ana-tb-1", class= "col-sm-6",
-                  h3("indices"),
+                  h3("Comparacao entre eles"),
                   tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                  h5("Na aba "Índices" foram construídos diversos gráficos no âmbito Federal e Estadual que mostram índices econômicos brasileiros e os partidos que estavam no poder durante os períodos de 1999 a 2014. No nível Federal, são mostrados os índices: Gini, PIB per Capita e PEA, já no Estadual, os índices disponíveis são: Gini, Desemprego e Pobreza para cada uma das unidades federativas escolhidas. Os gráficos estão em formatos de linha ou pontos. Cada mandato está representado em uma cor diferente mostrando também qual era o partido no período.")
+                  p("Na aba comparar partidos, basta digitar o numero de dois partidos desejados e, em seguida, graficos e tabelas sao gerados a respeito do percentual de votos do partido selecionado, gasto total e medio em campanha por cargo de acordo com as ultimas eleicoes e percentual de candidatos eleitos por partido. Para uma comparacao mais abrangente, mais dois graficos sao gerados: no primeiro permite-se ter uma ideia da correlacao entre o percentual de votos entre dois partidos e assim analisar se existe uma relacao antagonica entre os dois partidos, caso por exemplo haja uma tendencia decrescente. O segundo permite a visualizacao do percentual de votos para cada partido selecionado de acordo com o estado. ")
                   )
-                  
+              ),
+        
+          div(id = "Kaled", class = "row",
+              h1("Indices"),
+              div(id= "ana-tb-1", class= "col-sm-12",
+                  tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
+                  p("Em 'Indices' pode-se visualizar graficos em escala Federal e Estadual que mostram indicadores economicos brasileiros provenientes do IPEA de acordo com os partidos que estavam no poder. No nivel federal sao mostrados indices: Gini, PIB per Capita e Populacao economicamente ativa. Ja no nivel estadual, os indices disponiveis sao: Gini,Desemprego e pobreza por Estado escolhido. ")
               )
-        
-  
-        
-
-        
-            ),
-          
+              
+          )
+      ),
+      #-------------------TADEU------------------#    
       tabItem(
         tabName = "map",
         textOutput("erroMapa1"),
         leafletOutput("mapa", height = "95vh")
       ),
+      
+      
+      
+      #-------------------ANA-----------------#  
+      
       tabItem(
         tabName = "DadosPorCandidato",
         fluidRow(
@@ -324,23 +401,36 @@ O segundo mapa permite ter uma interação melhor com os dados em nível municipal.
                 box(plotlyOutput("gg2"), height = 450, width = 700, title = "Percentual votos nos partidos por Estado")
                 )
               ),
+      
+      
+      #-------------------AKIRA------------------#  
       tabItem(
         tabName = "chartmap",
         leafletOutput("chartmapa", height = "95vh")
       ),
+      
+      #-------------------KALED------------------#  
       tabItem(tabName = "indices",
               h1("", style = "95vh"),
               fluidRow(
                 plotlyOutput("chart")
               )),
+      
+      
+      
+      #-------------------ALGO ALEATORIO------------------# 
       tabItem(
         tabName = "misc"
       )
-    )
-  )
-)
+      
+      
+      #-------------------------------------# 
+    ) #TABITEM
+  ) #BODY
+) #DASH
 
 
+#-------------------BACK------------------#
 
 #back end do app
 server <- function(input, output) {
