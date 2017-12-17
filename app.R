@@ -309,8 +309,8 @@ ui <- dashboardPage(skin = "black",
                ano e escala regional desejados e ainda comparar partidos quanto a: quantidade de votos, valor gasto em campanha e  percentual de candidatos eleitos. 
                Informacoes como a representatividade por genero e o percentual de votos por candidato na eleicao selecionada tambem sao acessiveis. 
                Se deseja uma perspectiva mais completa, por meio da aba indices, 
-               pode-se visualizar indicadores economicos ao longo do tempo  de acordo com o partido no poder. "),
-            h3("Veja como funciona")
+               pode-se visualizar indicadores economicos ao longo do tempo  de acordo com o partido no poder. ")
+            
             
             ),
         
@@ -343,9 +343,9 @@ ui <- dashboardPage(skin = "black",
                   )
               ),
         
-          div(id = "Kaled", class = "row",
+          div(id = "Kaled", 
               h1("Indices"),
-              div(id= "ana-tb-1", class= "col-sm-12",
+              div(id= "ana-tb-1",
                   tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
                   p("Em 'Indices' pode-se visualizar graficos em escala Federal e Estadual que mostram indicadores economicos brasileiros provenientes do IPEA de acordo com os partidos que estavam no poder. No nivel federal sao mostrados indices: Gini, PIB per Capita e Populacao economicamente ativa. Ja no nivel estadual, os indices disponiveis sao: Gini,Desemprego e pobreza por Estado escolhido. ")
               )
