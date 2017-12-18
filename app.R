@@ -30,16 +30,16 @@ options(scipen = 999)
 estados <- data.frame(stringsAsFactors = F,
                       UF = c("BRASIL","AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"),
                       codigo = c(00,12,27,13,16,29,23,53,32,52,21,31,50,51,15,25,26,22,41,33,24,11,14,43,42,28,35,17))
-anos <- c(2014,2012,2010,2008,2006,2004,2002,2000)
+anost <- c(2014,2012,2010,2008,2006,2004,2002,2000)
 cargos1 <- c("Prefeito","Vereador")
 cargos2 <- c("Presidente","Governador","Senador","Deputado Federal","Deputado Estadual","Deputado Distrital")
 agregacoes <- c("Candidato","Partido")
 regAgreg1 <- c("Estado", "Municipio")
 regAgreg2 <- c("Municipio")
 pibs <- list()
-for(i in anos){pibs <- append(pibs,list(read.csv(sprintf("www/data/IBGE/municipios/popib%s.csv",i), stringsAsFactors = F, encoding = "UTF-8")))}
+for(i in anost){pibs <- append(pibs,list(read.csv(sprintf("www/data/IBGE/municipios/popib%s.csv",i), stringsAsFactors = F, encoding = "UTF-8")))}
 pibse <- list()
-for(i in anos){pibse <- append(pibse,list(read.csv(sprintf("www/data/IBGE/estados/%s.csv",i), stringsAsFactors = F, encoding = "UTF-8")))}
+for(i in anost){pibse <- append(pibse,list(read.csv(sprintf("www/data/IBGE/estados/%s.csv",i), stringsAsFactors = F, encoding = "UTF-8")))}
 colunas1 <- list("NUM_TURNO","NUMERO_CANDIDATO","QTDE_VOTOS","COD_MUN_IBGE", "UF","NUMERO_PARTIDO")
 colunas2 <- list("NUM_TURNO","NUMERO_CANDIDATO","QTDE_VOTOS","NOME_UF", "UF","NUMERO_PARTIDO")
 metricas <- c("total de votos", "votos/populacao", "votos/pib", "total de votos em log")
@@ -84,6 +84,11 @@ df2 <- read.csv2("www\\datacsv-API\\df2.csv", header = T, sep = ",")[,2:5]
 df3 <- read.csv2("www\\datacsv-API\\df3.csv", header = T, sep = ",")[,2:5]
 df4 <- read.csv2("www\\datacsv-API\\df4.csv", header = T, sep = ",")[,2:5]
 df5 <- read.csv2("www\\datacsv-API\\df5.csv", header = T, sep = ",")[,2:5]
+dados_k1 <- read.csv2(file = "www\\data\\indices\\dados_k1.csv", header = T, sep = ",")[,2:6]  
+dados_k2 <- read.csv2(file = "www\\data\\indices\\dados_k2.csv", header = T, sep = ",")[,2:6]  
+dados_k3 <- read.csv2(file = "www\\data\\indices\\dados_k3.csv", header = T, sep = ",")[,2:6]  
+dados_k4 <- read.csv2(file = "www\\data\\indices\\dados_k4.csv", header = T, sep = ",")[,2:6]  
+dados_k5 <- read.csv2(file = "www\\data\\indices\\dados_k5.csv", header = T, sep = ",")[,2:6]  
 
 #pt2
 anos1 <- c(2000, 2004, 2008, 2012, 2016)
@@ -149,8 +154,8 @@ presidas1998<-read.csv("www\\data\\indices\\presidente1998.csv",
 
 eleito1998_contem_eleito<-presidas1998[,4]
 pos1998<-which(eleito1998_contem_eleito==1)
-eleito1998_col<-presidas1998[,2]
-num_partido_1998<-eleito1998_col[pos1998]
+num_partido_1998<-presidas1998[,2][pos1998]
+partido_name1998<-presidas1998[,3][pos1998]
 
 
 presidas2002<-read.csv("www\\data\\indices\\presidente2002.csv",
@@ -159,16 +164,17 @@ presidas2002<-read.csv("www\\data\\indices\\presidente2002.csv",
 
 eleito2002_contem_eleito<-presidas2002[,4]
 pos2002<-which(eleito2002_contem_eleito==1)
-eleito2002_col<-presidas2002[,2]
-num_partido_2002<-eleito2002_col[pos2002]
+num_partido_2002<-presidas2002[,2][pos2002]
+partido_name2002<-presidas2002[,3][pos2002]
+
 
 presidas2006<-read.csv("www\\data\\indices\\presidente2006.csv",
                        header=TRUE,sep=";",colClasses=c("character","numeric","character","numeric","character"))
 
 eleito2006_contem_eleito<-presidas2006[,4]
 pos2006<-which(eleito2006_contem_eleito==1)
-eleito2006_col<-presidas2006[,2]
-num_partido_2006<-eleito2006_col[pos2006]
+num_partido_2006<-presidas2006[,2][pos2006]
+partido_name2006<-presidas2006[,3][pos2006]
 
 presidas2010<-read.csv("www\\data\\indices\\presidente2010.csv",
                        header=TRUE,sep=";",colClasses=c("character","numeric","character","numeric","character"))
@@ -176,16 +182,16 @@ presidas2010<-read.csv("www\\data\\indices\\presidente2010.csv",
 
 eleito2010_contem_eleito<-presidas2010[,4]
 pos2010<-which(eleito2010_contem_eleito==1)
-eleito2010_col<-presidas2010[,2]
-num_partido_2010<-eleito2010_col[pos2010]
+num_partido_2010<-presidas2010[,2][pos2010]
+partido_name2010<-presidas2010[,3][pos2010]
 
 presidas2014<-read.csv("www\\data\\indices\\presidente2014.csv",
                        header=TRUE,sep=";",colClasses=c("character","numeric","character","numeric","character"))
 
 eleito2014_contem_eleito<-presidas2014[,4]
 pos2014<-which(eleito2014_contem_eleito==1)
-eleito2014_col<-presidas2014[,2]
-num_partido_2014<-eleito2014_col[pos2014]
+num_partido_2014<-presidas2014[,2][pos2014]
+partido_name2014<-presidas2014[,3][pos2014]
 
 color1=randomColor()
 color2=randomColor()
@@ -232,10 +238,10 @@ ui <- dashboardPage(skin = "black",
                 conditionalPanel(
                   #class="menu-condicional",
                   condition = "input.sidebarmenu === 'map'",
-                  selectInput(inputId = "tipoConsulta", label = "Tipo da consulta",choices = c("individual","geral")),
+                  #selectInput(inputId = "tipoConsulta", label = "Tipo da consulta",choices = c("individual","geral")),
                   selectInput(inputId = "polAgr", label = "Agregacao politica", choices = agregacoes),
                   uiOutput("partyORcandidate"),
-                  selectInput(inputId = "ano", label = "Ano da eleicao", choices = anos),
+                  selectInput(inputId = "ano", label = "Ano da eleicao", choices = anost),
                   uiOutput(outputId = "cargo"),
                   selectInput(inputId = "estado", label = "Estado", choices = estados[,1]),
                   uiOutput(outputId = "regAgr"),
@@ -253,8 +259,7 @@ ui <- dashboardPage(skin = "black",
                            selectInput( inputId = "cargoPlot", label = "Cargo:", choices = c("Presidente", "Governador", "Senador", "Deputado Estadual", "Deputado Federal", "Prefeito", "Vereador")),
                            uiOutput(outputId = "anoPlot"),
                            uiOutput(outputId = "estadoPlot"),
-                           uiOutput(outputId = "nomemunicipio"),
-                           actionButton("go", "Gerar graficos")),
+                           uiOutput(outputId = "nomemunicipio")),
                          menuItem("Comparativo", tabName = "CompararPartidos"),
                          conditionalPanel(
                            class = "menu-conditional",
@@ -265,39 +270,18 @@ ui <- dashboardPage(skin = "black",
                          )
                 ),
                 
-                
-                
-                
-                
-                
-                
-                #------------------------------------AKIRA
-                
-                # menuItem("Graficos Chart", tabName = "chartmap", icon = icon("area-chart"),
-                #          menuItem("AKIRA"
-                #            
-                #            # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
-                #            
-                #            )),
-                         
-
                                  
               #------------------------------------KALED          
-              menuItem("Indices", tabName = "indices", icon = icon("line-chart"),
-                       menuSubItem("KALED"
-                         
-                         # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
-                         
-                       ))
-              
-              #------------------------------------aleatorio         
-              # menuItem("JORGE", tabName = "indices", icon = icon("database"),
-              #          menuSubItem("JORGE"
-              #                      
-              #                      # PELO AMOR DE DEUS ESCREVE SEU CODIGO AQUI E SOMENTE AQUI PLEASE EM NOME DE ALA, THANKS, AMO VCS, VITU <3
-              #                      
-              #          ))
-  )),
+              menuItem("Indices", tabName = "indices", icon = icon("line-chart")),
+              conditionalPanel(
+                class ="menu-conditional",
+                condition = "input.sidebarmenu == 'indices'",
+                selectInput( inputId = "cargo", label = "Cargo:", choices = c("Presidente", "Governador")),
+                uiOutput(outputId = "indices"),
+                uiOutput(outputId = "estado_escolhido"))
+             
+        )
+    ),
   
   
   
@@ -336,7 +320,7 @@ ui <- dashboardPage(skin = "black",
           div(id= "Tadeu",class = "row",
             div(id = "mapa_tadeu",class = "col-sm-6",
                 h3("Mapa Interativo"),
-                tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "70%")
+                tags$img(src = "https://lamfo-unb.github.io/img/geospace/chunk-5-1.png", width = "80%", height = "80%")
             ),
             div(id = "tadeu", class = "col-sm-6",
                 
@@ -352,22 +336,26 @@ ui <- dashboardPage(skin = "black",
                 h1("Candidatos"),
                 div(id= "ana-tb-1", class= "col-sm-6",
                     h3("Dados por Candidato"),
-                    tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
+                    tags$img(src = "https://cdn-images-1.medium.com/max/1000/1*Yu7XYHbRey0wzElg1c-f8A.png", width = "100%", height = "300px"),
                     p("Essa aba reune graficos e informacoes a respeito da distribuicao de genero dos candidatos e percentual de votos por candidato ou partido a partir da escolha do cargo, ano, Estado e nome do municipio selecionado. Pode-se fazer download dos graficos passando o mouse no canto superior da tela")
                     ),
               div(id= "ana-tb-1", class= "col-sm-6",
-                  h3("Comparacao entre eles"),
-                  tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
+                  h3("Comparacao entre candidatos"),
+                  tags$img(src = "https://cdn-images-1.medium.com/max/750/1*-l0E_YssK9RBWlPvNyjoqA.png", width = "100%", height = "300px"),
                   p("Na aba comparar partidos, basta digitar o numero de dois partidos desejados e, em seguida, graficos e tabelas sao gerados a respeito do percentual de votos do partido selecionado, gasto total e medio em campanha por cargo de acordo com as ultimas eleicoes e percentual de candidatos eleitos por partido. Para uma comparacao mais abrangente, mais dois graficos sao gerados: no primeiro permite-se ter uma ideia da correlacao entre o percentual de votos entre dois partidos e assim analisar se existe uma relacao antagonica entre os dois partidos, caso por exemplo haja uma tendencia decrescente. O segundo permite a visualizacao do percentual de votos para cada partido selecionado de acordo com o estado. ")
                   )
               ),
         
           div(id = "Kaled", class = "row",
               h1("Indices"),
-              div(id= "ana-tb-1", class= "col-sm-12",
-                  tags$img(src = "https://picsum.photos/200/300", width = "100%", height = "300px"),
-                  p("Em 'Indices' pode-se visualizar graficos em escala Federal e Estadual que mostram indicadores economicos brasileiros provenientes do IPEA de acordo com os partidos que estavam no poder. No nivel federal sao mostrados indices: Gini, PIB per Capita e Populacao economicamente ativa. Ja no nivel estadual, os indices disponiveis sao: Gini,Desemprego e pobreza por Estado escolhido. ")
-              )
+              div(id= "ana-tb-1", class= "col-sm-6",
+                  tags$img(src = "https://cdn-images-1.medium.com/max/500/1*-ISjF6tl_qpGPddTaRRo-w.png", width = "100%", height = "100%"),
+                  p("Em 'Indices' pode-se visualizar graficos em escala Federal e Estadual que mostram indicadores economicos brasileiros provenientes do IPEA de acordo com os partidos que estavam no poder. No nivel estadual sao mostrados os indices: Gini,Desemprego e pobreza por Estado escolhido. ")
+              ),
+              div(id= "ana-tb-1", class= "col-sm-6",
+                  tags$img(src = "https://cdn-images-1.medium.com/max/750/1*fo8WyMGiTtUWc5sIDMMI4g.png", width = "100%", height = "100%"),
+                  p("Ja no nivel nacional, os indices disponiveis sao: Gini, PIB per Capita e Populacao economicamente ativa. ")
+              )              
               
           )
       ),
@@ -375,7 +363,7 @@ ui <- dashboardPage(skin = "black",
       tabItem(
         tabName = "map",
         textOutput("erroMapa1"),
-        leafletOutput("mapa", height = "95vh")
+        leafletOutput("mapa", height = "100vh")
       ),
       
       
@@ -385,44 +373,31 @@ ui <- dashboardPage(skin = "black",
       tabItem(
         tabName = "DadosPorCandidato",
         fluidRow(
-          uiOutput("generoSpawn", height = "95vh"),
+          uiOutput("generoSpawn", height = "95%"),
           uiOutput("piespawn"),
           uiOutput("tabela")
         )
       ),
       
       tabItem(tabName = "CompararPartidos", #TADEU NAO SEI SE VOCE COLOCOU AQUELE MEU GRAFICO QUE TAVA DANDO PROBLEMA COLOCA ESSA PARTES SE NAO
-              h1("", style = "95vh"),
+              h1("", style = "100%"),
               fluidRow(
                 box(plotlyOutput("aa"), height = 450, width = 700),
-                box(tableOutput("tabelacomp1"), title = " Comparativo - Despesa Maxima em campanha", height = 360, width = 300, align = "left", background = "light-blue"),
-                box(tableOutput("tabelacomp2"), title = "Percentual de candidatos eleitos por partido selecionado",height = 300, width = 300, background = "light-blue"),
-                box(plotOutput("ak"), height = 400, width = 650),
+                box(tableOutput("tabelacomp1"), title = ".Comparativo - Despesa Maxima em campanha", height = "50%", width = "100%", align = "center", background = "light-blue"),
+                box(tableOutput("tabelacomp2"), title = ".Percentual de candidatos eleitos por partido selecionado",height = "50%", width = "100%",align = "center", background = "light-blue"),
+                box(plotlyOutput("ak"), height = 400, width = 650),
                 box(plotlyOutput("gg2"), height = 450, width = 700, title = "Percentual votos nos partidos por Estado")
                 )
               ),
       
       
-      #-------------------AKIRA------------------#  
-      tabItem(
-        tabName = "chartmap",
-        leafletOutput("chartmapa", height = "95vh")
-      ),
-      
       #-------------------KALED------------------#  
       tabItem(tabName = "indices",
-              h1("", style = "95vh"),
+              h1("", style = "100%"),
               fluidRow(
-                plotlyOutput("chart")
-              )),
-      
-      
-      
-      #-------------------ALGO ALEATORIO------------------# 
-      tabItem(
-        tabName = "misc"
-      )
-      
+                box(plotlyOutput("chart"), height = "35%", width = "250%"),
+                box(tableOutput("textinho"), background = "light-blue", height = "25%", width="100%")
+              ))
       
       #-------------------------------------# 
     ) #TABITEM
@@ -440,6 +415,8 @@ server <- function(input, output) {
   plotCandidatos()
   source("www/func/PlotCandidatos2.R",local = T)
   plotCandidatos2()
+  source("www/func/Indices.R",local=T)
+  indicesfunc()
 }
 
 

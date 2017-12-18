@@ -109,7 +109,7 @@ plotCandidatos2 <- function(){
                  ), 
                  yaxis = list( title = "Percentual de votos por partido"
                                
-                 ), width = 700, height = 450, legend = list(
+                 ), legend = list(
                    
                  )) 
     
@@ -355,8 +355,7 @@ plotCandidatos2 <- function(){
                   marker = list(symbol = 'circle', size = log(chartdata()[,4])*20, sizemode ='area'), color = Percentual_partido1, colors = 'Reds')
     ak <- layout(ak, title = "Relacao do % de votos entre os partidos",
                  xaxis = list(title = "% de votos Partido 1", autorange = T),
-                 yaxis  = list( title = "% de votos Partido 2"),
-                 width = 700, height = 400)
+                 yaxis  = list( title = "% de votos Partido 2"))
     
   })
   

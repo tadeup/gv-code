@@ -11,9 +11,9 @@ mapaIndividual <- function(){
   #party or candidate
   output$partyORcandidate <- renderUI({
     if(input$polAgr == "Candidato"){
-      textInput("poc","Numero do candidato", value = 13)
+      textInput("poc","Numero do candidato", value = 43)
     } else {
-      textInput("poc","Numero do Partido", value = 13)
+      textInput("poc","Numero do Partido", value = 43)
     }
   })
   
@@ -175,96 +175,5 @@ mapaIndividual <- function(){
         }
       })
     }
-  })
-  
-  #opções de índices
-  output$chartSpawn<-renderUI({
-    if(input$indices %in% c("Gini Brasil") && input$cargo %in% c("Presidente")){
-      box(plotlyOutput("gini"), title = "Gini e Partido", status = "primary")
-    }else if(input$indices %in% c("Gini Estados") && input$cargo %in% c("Governador")){
-    } else if (input$indices %in% c("Renda Per Capita") && input$cargo %in% c("Presidente")){
-      box(plotlyOutput("desemprego"), title = "Renda per capita", status = "primary")
-    } else if (input$indices %in% c("Desemprego") && input$cargo %in% c("Governador")){
-      box(plotlyOutput("desemprego"), title = "Desemprego e Partido", status = "primary")
-    } else if ((input$indices %in% c("PEA") && input$cargo %in% c("Presidente"))){
-      box(plotlyOutput("extrema_pobreza"), title = "PEA", status = "primary")
-    }else {
-      box(plotlyOutput("extrema_pobreza"), title = "Extrema pobreza e Partido", status = "primary")
-    }
-  })
-  
-  #âmbito nacional ou estadual
-  output$estado <- renderUI({
-    if(input$cargo == "Presidente"){
-      selectInput("estado", "Estado", "BR")}
-    else{
-      selectInput("estado", "Estado", estadosdiv )
-    }
-  })
-  output$indices<-renderUI({
-    if(input$cargo == "Presidente"){
-      selectInput("indices", "Indices", indicesbr)
-    }else if(input$cargo == "Governador"){
-      selectInput("indices", "Indices", indicesestado)
-    }
-  })
-  
-  #------------------------------------------------------------------
-  index <- reactive({
-    
-    
-    index<-input$indices
-    
-  })
-  
-  #--------------------------------------------------------------------
-  #plot
-  
-  output$chart <- renderPlotly({
-    
-    if(index()=="Gini Estados"){ 
-      igini_estado<-subset(igini, subset=(Sigla ==input$estado))
-      igini1<-igini_estado[,3]
-      plot_ly(x=anos,y=igini1,type="scatter", mode='marker', marker = list(size = 10, color = 'blue', opacity = 0.8))
-    }else if(index()=="Desemprego"){
-      idesemprego_estado<-subset(idesemprego, subset=(Sigla ==input$estado))
-      idesemprego1<-idesemprego_estado[,3]
-      plot_ly(x=anos,y=idesemprego1, type="scatter", mode='marker', marker = list(size = 10, color = 'blue', opacity = 0.8))
-      
-    }else if(index()=="Pobreza"){
-      ipobreza_estado<-subset(ipobreza, subset=(Sigla ==input$estado))
-      ipobreza1<-ipobreza_estado[,3]   
-      plot_ly(x=anos,y=ipobreza1, type="scatter", mode='marker', marker = list(size = 10, color = 'blue', opacity = 0.8))
-    }else if(index()=="Gini Brasil"){
-      
-      iginibr1<-iginibr_1[,2]
-      iginibr2<-iginibr_2[,2]
-      iginibr3<-iginibr_3[,2]
-      iginibr4<-iginibr_4[,2]
-      
-      
-      chart<-plot_ly(x=anos_ginibr,y=iginibr1,type="scatter", mode='lines',line = list(color = color1,width=4),connectgaps = FALSE)
-      chart<-add_trace(chart, y = iginibr2, name = 'trace 1', mode = 'lines',line = list(color = color2,width=4),connectgaps = FALSE)
-      chart<-add_trace(chart, y = iginibr3, name = 'trace 2', mode = 'lines',line = list(color = color2,width=4),connectgaps = FALSE)
-      chart<-add_trace(chart, y = iginibr4, name = 'trace 3', mode = 'lines',line = list(color = color2,width=4),connectgaps = FALSE)        
-    }else if(index()=="Pib per capita"){
-      
-      ppbr1<-ppbr_1[,2]
-      ppbr2<-ppbr_2[,2]
-      ppbr3<-ppbr_3[,2]
-      ppbr4<-ppbr_4[,5]
-      
-      chart<-plot_ly(x=anos_pp,y=ppbr1, type="scatter", mode='lines',line = list(color = color1,width=4), connectgaps = FALSE)  
-      chart<-add_trace(chart, y = ppbr2, name = 'trace 1', mode = 'lines',line = list(color = color2,width=4),connectgaps = FALSE)
-      chart<-add_trace(chart, y = ppbr3, name = 'trace 2', mode = 'lines',line = list(color = color2,width=4),connectgaps = FALSE)
-      chart<-add_trace(chart, y = ppbr4, name = 'trace 3', mode = 'lines',line = list(color = color2,width=4),connectgaps = FALSE)
-      
-    }else if(index()=="PEA"){
-      
-      peabr1<-peabr[,2]
-      plot_ly(x=anos_pea,y=peabr1, mode='lines') 
-      
-    }
-    
   })
 }
