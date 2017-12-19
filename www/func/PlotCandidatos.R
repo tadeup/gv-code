@@ -49,22 +49,40 @@ plotCandidatos <- function(){
   
   output$tabela <- renderUI({
     if(input$cargoPlot %in% c("Presidente", "Governador","Senador")){
-      box(tableOutput("tabela1"), title = "Resultados eleicao", status = "warning")
+      box(tableOutput("tabela1"), title = "Resultados eleicao", background = "light-blue", width = 6)
     } else if (input$cargoPlot %in% c("Deputado Federal","Deputado Estadual", "Vereador")){
-      box(tableOutput("tabela2"), title = " Resultados eleicao", status = "warning")
+      box(tableOutput("tabela2"), title = " Resultados eleicao", background = "light-blue", width = 6)
     } else {
-      box(tableOutput("tabela3"), title = "Resultados eleicao", status = "warning")
+      box(tableOutput("tabela3"), title = "Resultados eleicao", background = "light-blue", width = 6)
     }
   })
   
+  regagrPlot <- reactive({
+    if(input$cargoPlot != "Vereador" && input$cargoPlot != "Prefeito"){
+      regagrPlot <- "Estado" 
+    }
+    else{
+      regagrPlot <- "Municipio"
+    }
+    return(regagrPlot)
+  })
   
+  columplot <- reactive({
+    if(input$cargoPlot != "Vereador" && input$cargoPlot != "Prefeito"){
+      columplot <- list( "NUMERO_CANDIDATO", "UF", "QTDE_VOTOS", "NOME_URNA_CANDIDATO", "SIGLA_PARTIDO")
+    }
+    else{
+      columplot <- list( "NUMERO_CANDIDATO", "UF", "QTDE_VOTOS", "NOME_URNA_CANDIDATO", "SIGLA_PARTIDO", "NOME_MUNICIPIO")
+    }
+    return(columplot)
+  })
   #para a segunda ABA
   
   
   #Baixando dados de candidato e limpando por estado
   
   dfcepesp <- reactive({
-
+    
     # Para inputs de prefeito e vereador o grafico da distribuicao de genero nao sera realizado, pois os dados nao estao
     #disponiveis pela API, a solucao e mostrar composicao de homens e mulheres no estado
     
@@ -75,7 +93,7 @@ plotCandidatos <- function(){
     
     return(dfcepesp)
   })
-
+  
   #Plot de genero
   output$genero <- renderPlotly({
     dadosgenero <- prop.table(table(dfcepesp()[7]))
@@ -96,7 +114,7 @@ plotCandidatos <- function(){
   #PIE chart para presidente governador e senador
   dfpie <- reactive({
     columns <- list( "NUMERO_CANDIDATO", "UF", "QTDE_VOTOS", "NOME_URNA_CANDIDATO", "SIGLA_PARTIDO", "NOME_MUNICIPIO")
-    dfpie <- cepespdata(year = input$anoPlot, position = input$cargoPlot, regional_aggregation = "Municipality", columns_list = columns)
+    dfpie <- cepespdata(year = input$anoPlot, position = input$cargoPlot, regional_aggregation = regagrPlot(), columns_list = columplot())
     
     if(input$estadoPlot == "BR"){
       dfpie <- as.data.frame(dfpie)
@@ -120,7 +138,7 @@ plotCandidatos <- function(){
       if(is.na(v) == F){
         nomes[i] <- dfpie()$NOME_URNA_CANDIDATO[v]}
     }
-    pp <- round(pp,2)
+    pp <- round(pp,3)
     prop <- as.data.frame(cbind(nomes, pp))
     return(prop)
   })
@@ -192,7 +210,7 @@ plotCandidatos <- function(){
         nomes[i] <- dfpie()$SIGLA_PARTIDO[v]
       }
     }
-    pp <- round(pp,2)
+    pp <- round(pp,3)
     prop2 <- as.data.frame(cbind(pp, nomes))
     return(prop2)
   })
@@ -243,7 +261,7 @@ plotCandidatos <- function(){
       a <- dfmun()[dfmun()$NUMERO_CANDIDATO == tabela$Var1[i],]
       pp[i] <- sum(a$QTDE_VOTOS)/ sum(dfmun()$QTDE_VOTOS)  
     }
-    prop3 <- round(pp,2)
+    prop3 <- round(pp,3)
     return(prop3)
   }) 
   
@@ -266,6 +284,17 @@ plotCandidatos <- function(){
     dados <- cbind(nomes, prop3())
     colnames(dados) <- c("Numero do candidato", "Proporcao de votos")
     tabela3 <- dados
+  })
+  
+  output$textinho3 <- renderText({
+    textinho3 <- HTML(paste(
+      h2(HTML('&nbsp;'),HTML('&nbsp;'), "Guia:"),
+      p( HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Grafico 1:"), "Mostra a distribuicao de genero dos candidatos dado o cargo, ano de eleicao, estado e nome do municipio fornecidos pelo usuario.", HTML("<br/>"),
+         HTML('&nbsp;'),  HTML('&nbsp;'),  HTML('&nbsp;'), strong("Grafico 2:"), "Permite visualizar o percentual de votos do candidato ou partido selecionados em  formato de grafico circular. Permite-se tambem verificar a coligacao do candidato ao passar o cursor no grafico", HTML("<br/>"),
+         HTML('&nbsp;'),  HTML('&nbsp;'),  HTML('&nbsp;'), strong("Tabela 1:"), "Mostra, de acordo com as variaveis selecionadas para presidente, governador e senador, o nome do candidato, o partido dele, a proporcao de votos e a coligacao. Para os demais cargos, a tabela apresenta o partido, a coligacao e o percentual de votos por partido.", HTML("<br/>"), HTML("<br/>"),
+         HTML('&nbsp;'),  HTML('&nbsp;'),  HTML('&nbsp;'), "Obs: Pode-se fazer download dos graficos passando cursor do mouse no canto superior da tela e selecionando o icone: foto.", HTML("<br/>"),
+         HTML('&nbsp;'),  HTML('&nbsp;'),  HTML('&nbsp;'), "Devido a grande quantidade de informacoes a serem processadas esse grafico pode levar algum tempo para ser carregado."
+      )))
   })
   
 }

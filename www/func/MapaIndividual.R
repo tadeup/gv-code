@@ -143,8 +143,8 @@ mapaIndividual <- function(){
             source("www/func/plotBrEstadosPib.r", local = T)
             plotBrEstadosPib()
           } else {
-            source("www/func/plotBrEstadosLog.r", local = T)
-            plotBrEstadosLog()
+            source("www/func/LeafletRunEstadosBr-AkiraBatata.r", local = T)
+            leaflet_run_estados_br()
 
             #source("www/func/LeafletRunEstadosBrLog.r", local = T)
             #leaflet_run_estados_br()
@@ -166,9 +166,6 @@ mapaIndividual <- function(){
             source("www/func/plotBrMunPib.r", local = T)
             plotBrMunPib()
           } else {
-            #source("www/func/plotBrMunLog.r", local = T)
-            #plotBrMunLog()
-            
             source("www/func/LeafletRunMunicipiosBrLog.r", local = T)
             leaflet_run_municipios_log()
           }

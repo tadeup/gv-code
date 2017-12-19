@@ -73,14 +73,13 @@ plotCandidatos2 <- function(){
     cp2 <- round((cp2),1)
     cp <- round((cp),1)
     
-    print(class(nome_cand))
-    print(class(nome_cand2))
+
     
     comparativo <- as.data.frame(matrix(0,5,5))
     comparativo[,1] <- cp
     comparativo[,2] <- cp2
-    comparativo[,3] <- nome_cand
-    comparativo[,4] <- nome_cand2
+    comparativo[,3] <- as.character(nome_cand)
+    comparativo[,4] <- as.character(nome_cand2)
     comparativo[,5] <- anos
     
     colnames(comparativo) <- c("cp", "cp2", "nome_cand", "nome_cand2", "anos")
@@ -91,15 +90,15 @@ plotCandidatos2 <- function(){
   
   output$aa <- renderPlotly({
     
+
     
-    
-    aa <- plot_ly(comparativo(), x = comparativo()[,5], y = comparativo()[,1], name = input$partido1, type = 'scatter', mode = 'lines+markers', hoverinfo = "y + text",
-                  text = paste("Candidato:", comparativo()[,3]), marker = list( symbol = 'circle', size = comparativo()[,1], sizemode = 'area', color = "#E89B9B"), line = list(color = "#E89B9B")
+    aa <- plot_ly(comparativo(), x = comparativo()[,5], y = comparativo()[,1], name = input$partido1, type = 'scatter', mode = 'lines+markers', hoverinfo = "y",
+                  text = paste("Candidato:", as.character(comparativo()[,3])), marker = list( symbol = 'circle', size = comparativo()[,1], sizemode = 'area', color = "#E89B9B"), line = list(color = "#E89B9B")
     )
     
     
-    aa <- add_trace(aa, y = comparativo()[,2], name = input$partido2, hoverinfo = "y + text",
-                    text = paste("Candidato:", comparativo()[,4]), line = list(color = "#3fcafc"),
+    aa <- add_trace(aa, y = comparativo()[,2], name = input$partido2, hoverinfo = "y",
+                    text = paste("%"), line = list(color = "#3fcafc"),
                     marker = list(symbol = 'circle', size = comparativo()[,2], sizemode = 'area', 
                                   color = "#3fcafc"), type = 'scatter',mode = 'lines+markers', type = 'scatter')
     aa <- layout(aa, title = "Percentual de votos por partido ", 
@@ -381,12 +380,28 @@ plotCandidatos2 <- function(){
                      text = paste("Percentual de votos:",round(chartdata()[,6]*100,2), "%", "<br>", "Estado:" ,chartdata()[,1]),
                      marker = list(symbol = 'circle', size =chartdata()[,6]*1000, sizemode = 'area', 
                                    color = "#4ac6b7"), type = 'scatter')
-    #gg2 <- layout(gg2, title = "% de votos nos partidos por estado  ", 
-    #             xaxis = list( title = 'Estado',
-    #                          autorange = T, 
-    #                         type = "linear"
-    #          ), 
-    #         yaxis = list( title = "Percentual de votos por partido"), width = 700, height = 450)
+    gg2 <- layout(gg2, title = "Percentual de votos nos partidos por Estado  ")
   })
   
+  output$textinho2 <- renderText({
+    textinho2 <- HTML(paste( 
+                      h2(HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'),strong("Guia")),
+                      p(HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Grafico 1:")," Apresenta uma comparacao da evolucao historica de votos dos dois partidos selecionados em formato de grafico de linha.Tem-se dados para essa comparacao desde o ano de 1998.", HTML("<br/>"),
+                        HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Tabela 1:"), "Mostra um comparativo entre os dois partidos em relacao ao gasto total e medio em campanha de acordo com os cargos: Presidente, Governador, Senador, Deputado Federal e Deputado estadual.", HTML("<br/>"),
+                        HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Tabela 2:"), "Permite visualizar o percentual de candidatos eleitos por partido no que tange aos cargos acima mencionados.", HTML("<br/>"),
+                        HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Grafico 2:"),"Apresenta um comparativo entre a porcentagem de votos entre dois partidos em cada estado, permitindo ter uma ideia de correlacao, caso se observe uma tendencia descendente no grafico, observa-se que ha uma relacao antagonica entre os partidos, pois em estados nos quais ha predominancia de um partido, observa-se que ha menos influencia no outro e vice-versa. Caso nao haja tendencia aparente, nao se observa relacao direta de antagonismo ou nao entre os partidos.", HTML("<br/>"),
+                        HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Grafico 3:")," Permite a visualizacao do percentual de votos para cada partido selecionado de acordo com o estado.", HTML("<br/>"),HTML("<br/>"),
+                        HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), strong("Obs:"), "o grafico 2 tem como eixo x a porcentagem de votos de um partido e o eixo y a porcentagem de votos em outro partido, ou seja, um ponto, neste grafico compara os 2 partidos ao mesmo tempo. Ja no grafico 3, o eixo x tem cada um dos estados e o eixo y e a porcentagem de votos, sendo que cores diferentes representam os diferentes partidos, assim podemos ter ideia da distribuicao de votos de cada partido individualmente com esta visualizacao, enquanto que no grafico 2 a visualizacao mostra uma distribuicao conjunta.",HTML("<br/>"),HTML("<br/>"),
+                        HTML('&nbsp;'), HTML('&nbsp;'), HTML('&nbsp;'), "Para fazer download dos graficos acima, basta passar o cursor do mouse no topo dos graficos e clicar no item: foto"
+                        )))
+
+  })
+  
+  output$tabela_partido <- renderTable({
+    party <- c("PMDB", "PTB", "PDT", "PT", "DEM", "PCdoB", "PSB", "PSDB", "PTC", "PSC", "PMN", "PRP", "PPS", "PV", "AVANTE", "PP", "PSTU", "PCB", "PRTB", "PHS", "PSDC", "PCO", "PODE", "PSL", "PRB", "PSOL", "PR", "PSD", "PPL", "PEN", "PROS", "SD", "NOVO", "REDE", "PMB", "BRANCOS", "NULOS")
+    num <- c(15,14,12,13,25,65,40,45,36,20,33,44,23,43,70,11,16,21,28,31,27,29,19,17,10,50,22,55,54,51,90,77,30,18,35,96,95)
+    tabela_o <- as.data.frame(cbind(party, num))
+    colnames(tabela_o) <- c("Partido", "Numero do Partido")
+    tabela_partido <- tabela_o
+  })
 }

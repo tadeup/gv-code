@@ -10,7 +10,8 @@
 # install.packages("rgdal")
 # install.packages("dplyr")
 # install.packages("randomcoloR")
-
+#install.packages('wordcloud2')
+#install.packages('tm')
 
 library(plotly)
 library(shiny)
@@ -22,6 +23,8 @@ library(cepespR)
 library(rgdal)
 library(dplyr)
 library(randomcoloR)
+library(wordcloud2)
+library(tm)
 options(scipen = 999)
 
 # setwd("C:\\Users\\victor-pc\\Desktop\\Cepesp\\gv-code")
@@ -278,7 +281,22 @@ ui <- dashboardPage(skin = "black",
                 condition = "input.sidebarmenu == 'indices'",
                 selectInput( inputId = "cargo", label = "Cargo:", choices = c("Presidente", "Governador")),
                 uiOutput(outputId = "indices"),
-                uiOutput(outputId = "estado_escolhido"))
+                uiOutput(outputId = "estado_escolhido")),
+              
+              #------------------------------------AKILED          
+              menuItem("Nuvem de Palavras", tabName = "nuvem", icon = icon("cloud")),
+              conditionalPanel(
+                class ="menu-conditional",
+                condition = "input.sidebarmenu == 'nuvem'",
+                selectInput( inputId = "presidas", label = "Mandato:", choices = c("FHC: Pronunciamento ao Congresso Nacional, 1999",
+                                                                                   "Lula: Pronunciamento ao Congresso Nacional, 2003",
+                                                                                   "Lula: Pronunciamento a Nacao, 2003", 
+                                                                                   "Lula: Pronunciamento a Nacao, 2007",
+                                                                                   "Dilma: Pronunciamento ao Congresso Nacional, 2011",
+                                                                                   "Dilma: Pronunciamento a Nacao,2011",
+                                                                                   "Dilma: Pronunciamento ao Congresso Nacional, 2015",
+                                                                                   "Dilma: Pronunciamento a Nacao, 2015",
+                                                                                   "Temer: Pronunciamento no dia da posse, 2016")))
              
         )
     ),
@@ -320,7 +338,7 @@ ui <- dashboardPage(skin = "black",
           div(id= "Tadeu",class = "row",
             div(id = "mapa_tadeu",class = "col-sm-6",
                 h3("Mapa Interativo"),
-                tags$img(src = "https://lamfo-unb.github.io/img/geospace/chunk-5-1.png", width = "80%", height = "80%")
+                tags$img(src = "https://cdn-images-1.medium.com/max/1000/1*yOqH1Hwrldtahnjeoqw8Dg.png", width = "62%", height = "80%")
             ),
             div(id = "tadeu", class = "col-sm-6",
                 
@@ -336,7 +354,7 @@ ui <- dashboardPage(skin = "black",
                 h1("Candidatos"),
                 div(id= "ana-tb-1", class= "col-sm-6",
                     h3("Dados por Candidato"),
-                    tags$img(src = "https://cdn-images-1.medium.com/max/1000/1*Yu7XYHbRey0wzElg1c-f8A.png", width = "100%", height = "300px"),
+                    tags$img(src = "https://cdn-images-1.medium.com/max/750/1*HD5dUSDhqH1ui5NSeMc-EA.png", width = "80%", height = "80%"),
                     p("Essa aba reune graficos e informacoes a respeito da distribuicao de genero dos candidatos e percentual de votos por candidato ou partido a partir da escolha do cargo, ano, Estado e nome do municipio selecionado. Pode-se fazer download dos graficos passando o mouse no canto superior da tela")
                     ),
               div(id= "ana-tb-1", class= "col-sm-6",
@@ -375,18 +393,21 @@ ui <- dashboardPage(skin = "black",
         fluidRow(
           uiOutput("generoSpawn", height = "95%"),
           uiOutput("piespawn"),
-          uiOutput("tabela")
+          uiOutput("tabela"),
+          box(htmlOutput("textinho3"), background = "light-blue", width = 6)
         )
       ),
       
-      tabItem(tabName = "CompararPartidos", #TADEU NAO SEI SE VOCE COLOCOU AQUELE MEU GRAFICO QUE TAVA DANDO PROBLEMA COLOCA ESSA PARTES SE NAO
+      tabItem(tabName = "CompararPartidos", 
               h1("", style = "100%"),
               fluidRow(
                 box(plotlyOutput("aa"), height = 450, width = 700),
-                box(tableOutput("tabelacomp1"), title = ".Comparativo - Despesa Maxima em campanha", height = "50%", width = "100%", align = "center", background = "light-blue"),
-                box(tableOutput("tabelacomp2"), title = ".Percentual de candidatos eleitos por partido selecionado",height = "50%", width = "100%",align = "center", background = "light-blue"),
+                box(tableOutput("tabelacomp1"), title = HTML(paste(HTML('&nbsp;'), HTML('&nbsp;'),"Comparativo - Despesa Maxima em campanha")), height = "50%", width = "100%", align = "center", background = "light-blue"),
+                box(tableOutput("tabelacomp2"), title = HTML(paste( HTML('&nbsp;'), HTML('&nbsp;'),"Percentual de candidatos eleitos por partido selecionado")),height = "50%", width = "100%", background = "light-blue"),
                 box(plotlyOutput("ak"), height = 400, width = 650),
-                box(plotlyOutput("gg2"), height = 450, width = 700, title = "Percentual votos nos partidos por Estado")
+                box(plotlyOutput("gg2"), height = 450, width = 700),
+                box(htmlOutput("textinho2"), background = "light-blue", width = 9),
+                box(tableOutput("tabela_partido"), background = "light-blue", width = 3)
                 )
               ),
       
@@ -397,9 +418,15 @@ ui <- dashboardPage(skin = "black",
               fluidRow(
                 box(plotlyOutput("chart"), height = "35%", width = "250%"),
                 box(tableOutput("textinho"), background = "light-blue", height = "25%", width="100%")
-              ))
+              )),
       
       #-------------------------------------# 
+      tabItem(tabName = "nuvem",
+              h1("", style = "100%"),
+              fluidRow(
+                box(wordcloud2Output("cloud", width = "100%", height = "800px"), height="800px",width = "100%"),
+                box(htmlOutput("textinhonuvem"), width = "25%", background = "light-blue")
+              ))
     ) #TABITEM
   ) #BODY
 ) #DASH
@@ -417,6 +444,9 @@ server <- function(input, output) {
   plotCandidatos2()
   source("www/func/Indices.R",local=T)
   indicesfunc()
+  source("www/func/akiled.R",local=T)
+  akiled()
+  
 }
 
 
